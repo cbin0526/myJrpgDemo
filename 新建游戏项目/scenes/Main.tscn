@@ -1,13 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://bcq0j0jrxla8a"]
+[gd_scene load_steps=10 format=3 uid="uid://bcq0j0jrxla8a"]
 
-[ext_resource type="Script" path="res://scripts/Main.gd" id="1_c31pm"]
+[ext_resource type="Script" uid="uid://dk0ibfukp5wt3" path="res://scripts/Main.gd" id="1_c31pm"]
+[ext_resource type="Script" path="res://scripts/state/BattleState.gd" id="2_m1h4p"]
+[ext_resource type="Script" path="res://scripts/ui/BattleUI.gd" id="3_i40vf"]
+[ext_resource type="Script" path="res://scripts/input/BattleInput.gd" id="4_7ejha"]
+[ext_resource type="Script" path="res://scripts/grid/GridBoard.gd" id="5_t3u1r"]
+[ext_resource type="Script" path="res://scripts/render/BattleRenderer.gd" id="6_3k6m4"]
+[ext_resource type="Script" path="res://scripts/render/BattleAnimator.gd" id="7_2q0ks"]
+[ext_resource type="Script" path="res://scripts/combat/CombatController.gd" id="8_yhck0"]
+[ext_resource type="Script" path="res://scripts/ai/EnemyAI.gd" id="9_i2x73"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=472311070]
 script = ExtResource("1_c31pm")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="BattleState" type="Node" parent="." unique_id=1640871148]
+script = ExtResource("2_m1h4p")
 
-[node name="UIRoot" type="Control" parent="CanvasLayer"]
+[node name="BattleUI" type="Node" parent="." unique_id=1259715041]
+script = ExtResource("3_i40vf")
+
+[node name="BattleInput" type="Node" parent="." unique_id=770186964]
+script = ExtResource("4_7ejha")
+
+[node name="GridBoard" type="Node" parent="." unique_id=1568416045]
+script = ExtResource("5_t3u1r")
+
+[node name="BattleRenderer" type="Node" parent="." unique_id=1420885838]
+script = ExtResource("6_3k6m4")
+
+[node name="BattleAnimator" type="Node" parent="." unique_id=1857157488]
+script = ExtResource("7_2q0ks")
+
+[node name="CombatController" type="Node" parent="." unique_id=1397343570]
+script = ExtResource("8_yhck0")
+
+[node name="EnemyAI" type="Node" parent="." unique_id=1977076217]
+script = ExtResource("9_i2x73")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=244768393]
+
+[node name="UIRoot" type="Control" parent="CanvasLayer" unique_id=1714017169]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,61 +48,61 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="SkillBar" type="HBoxContainer" parent="CanvasLayer/UIRoot"]
+[node name="SkillBar" type="HBoxContainer" parent="CanvasLayer/UIRoot" unique_id=792414674]
 layout_mode = 1
 
-[node name="SlashButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar"]
+[node name="SlashButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar" unique_id=1998748280]
 layout_mode = 2
 
-[node name="RendButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar"]
+[node name="RendButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar" unique_id=1704762501]
 layout_mode = 2
 
-[node name="ChargeButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar"]
+[node name="ChargeButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar" unique_id=459640014]
 layout_mode = 2
 
-[node name="BloodStrikeButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar"]
+[node name="BloodStrikeButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar" unique_id=625536595]
 layout_mode = 2
 
-[node name="WhirlwindButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar"]
+[node name="WhirlwindButton" type="Button" parent="CanvasLayer/UIRoot/SkillBar" unique_id=523223292]
 layout_mode = 2
 
-[node name="EndTurnButton" type="Button" parent="CanvasLayer/UIRoot"]
+[node name="EndTurnButton" type="Button" parent="CanvasLayer/UIRoot" unique_id=576121980]
 layout_mode = 1
-text = "End Turn"
+text = "结束回合"
 
-[node name="ToggleSidePanelButton" type="Button" parent="CanvasLayer/UIRoot"]
+[node name="ToggleSidePanelButton" type="Button" parent="CanvasLayer/UIRoot" unique_id=394565918]
 layout_mode = 1
-text = "Hide Log"
+text = "隐藏面板"
 
-[node name="LogPanel" type="PanelContainer" parent="CanvasLayer/UIRoot"]
+[node name="LogPanel" type="PanelContainer" parent="CanvasLayer/UIRoot" unique_id=1353236935]
 layout_mode = 1
 
-[node name="BattleLog" type="RichTextLabel" parent="CanvasLayer/UIRoot/LogPanel"]
+[node name="BattleLog" type="RichTextLabel" parent="CanvasLayer/UIRoot/LogPanel" unique_id=410317648]
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="InfoPanel" type="PanelContainer" parent="CanvasLayer/UIRoot"]
+[node name="InfoPanel" type="PanelContainer" parent="CanvasLayer/UIRoot" unique_id=757722468]
 layout_mode = 1
 
-[node name="InfoLabel" type="RichTextLabel" parent="CanvasLayer/UIRoot/InfoPanel"]
+[node name="InfoLabel" type="RichTextLabel" parent="CanvasLayer/UIRoot/InfoPanel" unique_id=1367308729]
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="ResultPanel" type="PanelContainer" parent="CanvasLayer/UIRoot"]
+[node name="ResultPanel" type="PanelContainer" parent="CanvasLayer/UIRoot" unique_id=1556485274]
 visible = false
 layout_mode = 1
 
-[node name="ResultBox" type="VBoxContainer" parent="CanvasLayer/UIRoot/ResultPanel"]
+[node name="ResultBox" type="VBoxContainer" parent="CanvasLayer/UIRoot/ResultPanel" unique_id=727938762]
 layout_mode = 2
 
-[node name="ResultLabel" type="Label" parent="CanvasLayer/UIRoot/ResultPanel/ResultBox"]
+[node name="ResultLabel" type="Label" parent="CanvasLayer/UIRoot/ResultPanel/ResultBox" unique_id=54885523]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="RestartButton" type="Button" parent="CanvasLayer/UIRoot/ResultPanel/ResultBox"]
+[node name="RestartButton" type="Button" parent="CanvasLayer/UIRoot/ResultPanel/ResultBox" unique_id=124515745]
 layout_mode = 2
-text = "Restart"
+text = "重新开始"
