@@ -3,8 +3,8 @@ extends Node
 signal battle_log_changed
 signal state_changed
 
-const GRID_WIDTH := 10
-const GRID_HEIGHT := 10
+const GRID_WIDTH := 8
+const GRID_HEIGHT := 8
 const PLAYER_MAX_MP := 3
 const PLAYER_MAX_AP := 6
 const PLAYER_MAX_RAGE := 100
@@ -20,6 +20,24 @@ const TEX_LAMB := preload("res://assets/art/lamb.png")
 const TEX_SHEEP_GUARD := preload("res://assets/art/sheep_guard.png")
 const TEX_GRASS_TILE := preload("res://assets/art/grass_tile.png")
 const TEX_STONE_OBSTACLE := preload("res://assets/art/stone_obstacle.png")
+const PATCH_0_TILE_GRID_SIZE := 8
+const PATCH_0_TILE_PATH_TEMPLATE := "res://assets/wakfu/maps/patches/patch_0_tiles/patch_0_%02d_%02d.png"
+const TEX_WAKFU_TILES := [
+	preload("res://assets/wakfu/maps/tiles/tile_grass_0.tga"),
+	preload("res://assets/wakfu/maps/tiles/tile_grass_1.tga"),
+	preload("res://assets/wakfu/maps/tiles/tile_grass_2.tga"),
+	preload("res://assets/wakfu/maps/tiles/tile_grass_3.tga"),
+	preload("res://assets/wakfu/maps/tiles/tile_grass_4.tga"),
+	preload("res://assets/wakfu/maps/tiles/tile_grass_5.tga"),
+]
+const TEX_WAKFU_PROPS := [
+	preload("res://assets/wakfu/maps/props/prop_obstacle_0.tga"),
+	preload("res://assets/wakfu/maps/props/prop_obstacle_1.tga"),
+	preload("res://assets/wakfu/maps/props/prop_obstacle_2.tga"),
+	preload("res://assets/wakfu/maps/props/prop_obstacle_3.tga"),
+	preload("res://assets/wakfu/maps/props/prop_obstacle_4.tga"),
+	preload("res://assets/wakfu/maps/props/prop_obstacle_5.tga"),
+]
 const TEX_SLASH_ICON := preload("res://assets/art/slash_icon.png")
 const TEX_REND_ICON := preload("res://assets/art/rend_icon.png")
 const TEX_CHARGE_ICON := preload("res://assets/art/charge_icon.png")
@@ -90,6 +108,7 @@ var battle_logs: Array[String] = []
 var enemy_turn_running: bool = false
 var input_locked: bool = false
 var side_panel_visible: bool = true
+var patch_0_tile_cache: Dictionary = {}
 
 var enemies: Array[Dictionary] = create_room_enemies()
 
@@ -120,7 +139,7 @@ func create_enemy(name: String, enemy_type: String, grid: Vector2i, max_hp: int,
 func create_room_enemies() -> Array[Dictionary]:
 	return [
 		create_enemy("小羊甲", "Lamb", Vector2i(6, 3), ENEMY_MAX_HP, ENEMY_ATTACK_DAMAGE, ENEMY_MAX_MP),
-		create_enemy("小羊乙", "Lamb", Vector2i(8, 5), ENEMY_MAX_HP, ENEMY_ATTACK_DAMAGE, ENEMY_MAX_MP),
+		create_enemy("小羊乙", "Lamb", Vector2i(7, 5), ENEMY_MAX_HP, ENEMY_ATTACK_DAMAGE, ENEMY_MAX_MP),
 		create_enemy("羊卫士", "Guard", Vector2i(6, 6), SHEEP_GUARD_MAX_HP, SHEEP_GUARD_ATTACK_DAMAGE, SHEEP_GUARD_MAX_MP),
 	]
 
@@ -225,6 +244,21 @@ func get_enemy_type_display_name(enemy: Dictionary) -> String:
 		return "羊卫士"
 	return "小羊"
 
+func get_tile_texture(grid: Vector2i) -> Texture2D:
+	if grid.x >= 0 and grid.y >= 0 and grid.x < PATCH_0_TILE_GRID_SIZE and grid.y < PATCH_0_TILE_GRID_SIZE:
+		if not patch_0_tile_cache.has(grid):
+			var texture_path: String = PATCH_0_TILE_PATH_TEMPLATE % [grid.y, grid.x]
+			var texture := load(texture_path)
+			patch_0_tile_cache[grid] = texture if texture is Texture2D else TEX_GRASS_TILE
+		return patch_0_tile_cache[grid] as Texture2D
+
+	return TEX_GRASS_TILE
+
+func get_obstacle_texture(grid: Vector2i) -> Texture2D:
+	if TEX_WAKFU_PROPS.is_empty():
+		return TEX_STONE_OBSTACLE
+	var index: int = absi(grid.x * 29 + grid.y * 37) % TEX_WAKFU_PROPS.size()
+	return TEX_WAKFU_PROPS[index] as Texture2D
 
 func get_skill_icon(skill: String) -> Texture2D:
 	if skill == SKILL_SLASH:

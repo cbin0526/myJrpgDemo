@@ -65,11 +65,11 @@ func draw_grid() -> void:
 				overlay_color = COLOR_MOVE
 
 			canvas.draw_colored_polygon(points, base_color)
-			draw_texture_centered(battle_state.TEX_GRASS_TILE, center, Vector2(grid_board.TILE_WIDTH, grid_board.TILE_HEIGHT))
+			draw_texture_centered(battle_state.get_tile_texture(grid), center, Vector2(grid_board.TILE_WIDTH, grid_board.TILE_HEIGHT))
 			if overlay_color.a > 0.0:
 				canvas.draw_colored_polygon(points, overlay_color)
 			if grid_board.is_blocked(grid):
-				draw_texture_centered(battle_state.TEX_STONE_OBSTACLE, center + Vector2(0.0, -26.0), Vector2(72.0, 72.0))
+				draw_texture_centered(battle_state.get_obstacle_texture(grid), center + Vector2(0.0, -26.0), Vector2(72.0, 72.0))
 			canvas.draw_polyline(grid_board.close_points(points), COLOR_TILE_LINE, 1.0, true)
 
 	if grid_board.is_inside_grid(battle_state.hover_grid):
